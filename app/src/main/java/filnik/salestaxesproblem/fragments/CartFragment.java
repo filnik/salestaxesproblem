@@ -3,6 +3,7 @@ package filnik.salestaxesproblem.fragments;
 import android.app.DialogFragment;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import filnik.salestaxesproblem.activities.CartActivity;
 import filnik.salestaxesproblem.model.Basket;
 import filnik.salestaxesproblem.model.CartAdapter;
 import filnik.salestaxesproblem.model.items.Item;
+import filnik.salestaxesproblem.view.DividerItemDecoration;
 
 /**
  * Created by fil on 20/02/17.
@@ -45,25 +47,26 @@ public class CartFragment extends DialogFragment {
         });
 
         cartAdapter = new CartAdapter(basket);
+
+        cartView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
         cartView.setAdapter(cartAdapter);
+        cartView.invalidate();
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // do awesome things with paypal
                 Toast.makeText(getActivity(), R.string.paid, Toast.LENGTH_SHORT).show();
                 cartAdapter.clear();
-                // do awesome things with paypal
+                if (getActivity() instanceof CartActivity){
+                    ((CartActivity) getActivity()).onPaid();
+                }
+                dismiss();
             }
         });
 
-        Rect displayRectangle = new Rect();
-        Window window = getActivity().getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
-
         getDialog().setTitle(getString(R.string.cart));
-
-        root.setMinimumWidth((int) (displayRectangle.width() * 0.7));
-        root.setMinimumHeight((int) (displayRectangle.height() * 0.7));
 
         return root;
     }

@@ -2,6 +2,7 @@ package filnik.salestaxesproblem.model;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,7 @@ import filnik.salestaxesproblem.model.items.Item;
  */
 
 class CartHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.name) TextView name;
-    @BindView(R.id.price) TextView price;
+    @BindView(R.id.text) TextView text;
 
     CartHolder(View view) {
         super(view);
@@ -36,7 +36,7 @@ public class CartAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View root = inflater.inflate(R.layout.fragment_cart, null, false);
+        View root = inflater.inflate(R.layout.element_cart, null, false);
         return new CartHolder(root);
     }
 
@@ -45,10 +45,10 @@ public class CartAdapter extends RecyclerView.Adapter {
         CartHolder myHolder = (CartHolder) holder;
         Item item = basket.getItem(position);
         Context context = holder.itemView.getContext();
-        String imported = item.isImported() ? " " + context.getString(R.string.imported) + " " : "";
+        String imported = item.isImported() ? " " + context.getString(R.string.imported).toLowerCase() + " " : " ";
 
-        myHolder.name.setText("1 " + imported + item.getName());
-        myHolder.price.setText(item.getPriceWithTax().toString());
+        myHolder.text.setText("" + (position + 1) + imported + " " + item.getName() +
+                context.getString(R.string.at) + " " + item.getPriceWithTax().toString());
     }
 
     @Override
@@ -59,9 +59,5 @@ public class CartAdapter extends RecyclerView.Adapter {
     public void clear(){
         basket.clear();
         notifyDataSetChanged();
-    }
-
-    public Basket getBasket() {
-        return basket;
     }
 }

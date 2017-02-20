@@ -143,7 +143,7 @@ Total: 74.68
             @Override
             public void onValidationSucceeded() {
                 itemsAdded++;
-                double price = Double.parseDouble(priceItem.getText().toString());
+                double price = Double.parseDouble(priceItem.getText().toString().replace("[^0-9\\.]", ""));
                 basket.add(new Item(nameItem.getText().toString(), imported.isChecked(), price));
                 ActionItemBadge.update(MainActivity.this, cartItem,
                         getResources().getDrawable(R.mipmap.ic_shopping_cart_white),
@@ -161,7 +161,6 @@ Total: 74.68
         });
 
         validator.put(nameItem, new QuickRule<EditText>() {
-
             @Override
             public boolean isValid(EditText editText) {
                 return !editText.getText().toString().equals("") && !editText.getText().toString().matches("\\W");
@@ -174,11 +173,10 @@ Total: 74.68
         });
 
         validator.put(priceItem, new QuickRule<EditText>() {
-
             @Override
             public boolean isValid(EditText editText) {
                 try{
-                    Double.parseDouble(priceItem.getText().toString());
+                    Double.parseDouble(priceItem.getText().toString().replace("[^0-9\\.]", ""));
                 } catch (final NumberFormatException e) {
                     return false;
                 }
@@ -196,18 +194,25 @@ Total: 74.68
         if (cartFragment != null){
             return;
         }
+        if (basket.size() == 0){
+            Toast.makeText(this, getString(R.string.no_items), Toast.LENGTH_SHORT).show();
+            return;
+        }
         cartFragment = new CartFragment();
         cartFragment.setBasket(basket);
         cartFragment.setCancelable(false);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         cartFragment.show(ft, getString(R.string.cart));
-
-        cartItem.getActionView().findViewById(R.id.menu_badge).setVisibility(View.GONE);
-        itemsAdded = 0;
     }
 
     @Override
     public void onCartClose() {
         cartFragment = null;
+    }
+
+    @Override
+    public void onPaid() {
+        cartItem.getActionView().findViewById(R.id.menu_badge).setVisibility(View.GONE);
+        itemsAdded = 0;
     }
 }

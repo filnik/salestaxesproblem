@@ -6,4 +6,5 @@ package filnik.salestaxesproblem.activities;
 
 public interface CartActivity {
     public void onCartClose();
+    public void onPaid();
 }
