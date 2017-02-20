@@ -1,5 +1,6 @@
 package filnik.salestaxesproblem.activities;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,8 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import filnik.salestaxesproblem.R;
+import filnik.salestaxesproblem.fragments.CartFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CartActivity {
 
     /*
     Bisogna applicare una tassa base a un tasso del 10% per tutti i beni eccetto libri, cibo e prodotti medici
@@ -80,7 +82,7 @@ Output 3:
 Sales Taxes: 6.70
 Total: 74.68
      */
-
+    private CartFragment cartFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,5 +112,20 @@ Total: 74.68
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openCart(){
+        if (cartFragment != null){
+            return;
+        }
+        cartFragment = new CartFragment();
+        cartFragment.setCancelable(false);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        cartFragment.show(ft, getString(R.string.cart));
+    }
+
+    @Override
+    public void onCartClose() {
+        cartFragment = null;
     }
 }

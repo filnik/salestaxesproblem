@@ -8,6 +8,10 @@
     <string name="price">Price:</string>
     <string name="price_hint">Price</string>
     <string name="imported">Imported</string>
+    <string name="cart">cart</string>
+    <string name="close">Close</string>
+    <string name="pay">Pay</string>
+    <string name="paid">Cart paid</string>
 
     <string-array name="item_types">
         <item>Book</item>

@@ -41,8 +41,17 @@ public class Basket {
         return totalTaxes;
     }
 
-    @Override
-    public String toString() {
+    public void clear() {
+        items.clear();
+        totalPrice = 0;
+        totalTaxes = 0;
+    }
 
+    public int size() {
+        return items.size();
+    }
+
+    public Item getItem(int i) {
+        return items.get(i);
     }
 }
