@@ -1,40 +1,63 @@
 package filnik.salestaxesproblem.model;
 
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.model.items.Item;
 
 /**
  * Created by fil on 20/02/17.
  */
 
-public class CartAdapter extends BaseAdapter {
+class CartHolder extends RecyclerView.ViewHolder {
+    @BindView(R.id.name) TextView name;
+    @BindView(R.id.price) TextView price;
+
+    CartHolder(View view) {
+        super(view);
+        ButterKnife.bind(this, view);
+    }
+}
+
+public class CartAdapter extends RecyclerView.Adapter {
     private Basket basket = new Basket();
 
     @Override
-    public int getCount() {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View root = inflater.inflate(R.layout.fragment_cart, null, false);
+        return new CartHolder(root);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        CartHolder myHolder = (CartHolder) holder;
+        Item item = basket.getItem(position);
+        Context context = holder.itemView.getContext();
+        String imported = item.isImported() ? " " + context.getString(R.string.imported) + " " : "";
+
+        myHolder.name.setText("1 " + imported + item.getName());
+        myHolder.price.setText(item.getPriceWithTax().toString());
+    }
+
+    @Override
+    public int getItemCount() {
         return basket.size();
-    }
-
-    @Override
-    public Item getItem(int i) {
-        return basket.getItem(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
     }
 
     public void clear(){
         basket.clear();
         notifyDataSetChanged();
+    }
+
+    public Basket getBasket() {
+        return basket;
     }
 }

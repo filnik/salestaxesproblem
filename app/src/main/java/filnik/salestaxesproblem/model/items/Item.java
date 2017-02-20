@@ -9,6 +9,12 @@ public class Item {
     private boolean imported = false;
     private double price = 0;
 
+    public Item(String name, boolean imported, double price) {
+        this.name = name;
+        this.imported = imported;
+        this.price = price;
+    }
+
     protected int baseTax(){
         return 10;
     }
@@ -35,7 +41,7 @@ public class Item {
         return price;
     }
 
-    public double getPriceWithTax(){
+    public Double getPriceWithTax(){
         return price + roundedTotalTax();
     }
 
@@ -46,5 +52,17 @@ public class Item {
             return name.equals(otherItem.name) && price == otherItem.getPrice() && imported == otherItem.imported;
         }
         return false;
+    }
+
+    public boolean isImported() {
+        return imported;
+    }
+
+    public void setImported(boolean imported) {
+        this.imported = imported;
+    }
+
+    public String getName() {
+        return name;
     }
 }

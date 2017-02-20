@@ -3,20 +3,24 @@ package filnik.salestaxesproblem.fragments;
 import android.app.DialogFragment;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.activities.CartActivity;
-import filnik.salestaxesproblem.model.Basket;
 import filnik.salestaxesproblem.model.CartAdapter;
+import filnik.salestaxesproblem.model.items.Item;
 
 /**
  * Created by fil on 20/02/17.
@@ -24,7 +28,9 @@ import filnik.salestaxesproblem.model.CartAdapter;
 public class CartFragment extends DialogFragment {
     @BindView(R.id.close)       Button closeButton;
     @BindView(R.id.pay)         Button payButton;
-    @BindView(R.id.cart_list)   ListView cartListView;
+    @BindView(R.id.cart_list)   RecyclerView cartView;
+    private EventBus bus = EventBus.getDefault();
+    private CartAdapter cartAdapter;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +47,8 @@ public class CartFragment extends DialogFragment {
             }
         });
 
-        final CartAdapter cartAdapter = new CartAdapter();
-        cartListView.setAdapter(cartAdapter);
+        cartAdapter = new CartAdapter();
+        cartView.setAdapter(cartAdapter);
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,5 +69,23 @@ public class CartFragment extends DialogFragment {
         root.setMinimumHeight((int) (displayRectangle.height() * 0.7));
 
         return root;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onItemEvent(Item item) {
+        cartAdapter.getBasket().add(item);
+        cartAdapter.notifyDataSetChanged();
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bus.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        bus.unregister(this);
     }
 }
