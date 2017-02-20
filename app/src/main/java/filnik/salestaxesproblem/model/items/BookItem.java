@@ -6,6 +6,10 @@ package filnik.salestaxesproblem.model.items;
 
 public class BookItem extends Item {
 
+    public BookItem(String name, boolean imported, double price) {
+        super(name, imported, price);
+    }
+
     @Override
     protected int baseTax() {
         return 0;

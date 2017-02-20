@@ -1,27 +1,22 @@
 package filnik.salestaxesproblem.activities;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikepenz.actionitembadge.library.ActionItemBadge;
 import com.mobsandgeeks.saripaar.QuickRule;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -30,9 +25,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.fragments.CartFragment;
+import filnik.salestaxesproblem.model.Basket;
 import filnik.salestaxesproblem.model.items.Item;
 
-public class MainActivity extends AppCompatActivity implements CartActivity {
+public class MainActivity extends Activity implements CartActivity {
 
     /*
     Bisogna applicare una tassa base a un tasso del 10% per tutti i beni eccetto libri, cibo e prodotti medici
@@ -102,34 +98,35 @@ Sales Taxes: 6.70
 Total: 74.68
      */
     private CartFragment cartFragment;
-    private EventBus bus = EventBus.getDefault();
-
     protected Validator validator = new Validator(this);
 
     @BindView(R.id.name) EditText nameItem;
     @BindView(R.id.price) EditText priceItem;
     @BindView(R.id.imported) CheckBox imported;
+    private MenuItem cartItem;
+    private int itemsAdded = 0;
+    private Basket basket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         setupValidator();
+        basket = new Basket();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        cartItem = menu.findItem(R.id.cart);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.cart_list) {
+        if (id == R.id.cart) {
             openCart();
             return true;
         }
@@ -137,7 +134,7 @@ Total: 74.68
     }
 
     @OnClick(R.id.add_button)
-    private void onAddButton(){
+    public void onAddButton(){
         validator.validate();
     }
 
@@ -145,8 +142,12 @@ Total: 74.68
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
+                itemsAdded++;
                 double price = Double.parseDouble(priceItem.getText().toString());
-                bus.post(new Item(nameItem.getText().toString(), imported.isChecked(), price));
+                basket.add(new Item(nameItem.getText().toString(), imported.isChecked(), price));
+                ActionItemBadge.update(MainActivity.this, cartItem,
+                        getResources().getDrawable(R.mipmap.ic_shopping_cart_white),
+                        ActionItemBadge.BadgeStyles.RED, itemsAdded);
             }
 
             @Override
@@ -196,9 +197,13 @@ Total: 74.68
             return;
         }
         cartFragment = new CartFragment();
+        cartFragment.setBasket(basket);
         cartFragment.setCancelable(false);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         cartFragment.show(ft, getString(R.string.cart));
+
+        cartItem.getActionView().findViewById(R.id.menu_badge).setVisibility(View.GONE);
+        itemsAdded = 0;
     }
 
     @Override

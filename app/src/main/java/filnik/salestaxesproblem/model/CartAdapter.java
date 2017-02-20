@@ -27,7 +27,11 @@ class CartHolder extends RecyclerView.ViewHolder {
 }
 
 public class CartAdapter extends RecyclerView.Adapter {
-    private Basket basket = new Basket();
+    private Basket basket;
+
+    public CartAdapter(Basket basket) {
+        this.basket = basket;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

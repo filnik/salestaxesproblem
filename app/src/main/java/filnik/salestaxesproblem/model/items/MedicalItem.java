@@ -6,6 +6,10 @@ package filnik.salestaxesproblem.model.items;
 
 public class MedicalItem extends Item {
 
+    public MedicalItem(String name, boolean imported, double price) {
+        super(name, imported, price);
+    }
+
     @Override
     protected int baseTax() {
         return 0;

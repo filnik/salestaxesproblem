@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sales Taxes Problem</string>
+    <string name="app_name">Sales Taxes</string>
     <string name="action_settings">Settings</string>
     <string name="name">Item name:</string>
     <string name="name_hint">Name</string>

@@ -11,14 +11,11 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.activities.CartActivity;
+import filnik.salestaxesproblem.model.Basket;
 import filnik.salestaxesproblem.model.CartAdapter;
 import filnik.salestaxesproblem.model.items.Item;
 
@@ -29,13 +26,13 @@ public class CartFragment extends DialogFragment {
     @BindView(R.id.close)       Button closeButton;
     @BindView(R.id.pay)         Button payButton;
     @BindView(R.id.cart_list)   RecyclerView cartView;
-    private EventBus bus = EventBus.getDefault();
     private CartAdapter cartAdapter;
+    private Basket basket;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cart, null, false);
-        ButterKnife.bind(root);
+        ButterKnife.bind(this, root);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +44,7 @@ public class CartFragment extends DialogFragment {
             }
         });
 
-        cartAdapter = new CartAdapter();
+        cartAdapter = new CartAdapter(basket);
         cartView.setAdapter(cartAdapter);
 
         payButton.setOnClickListener(new View.OnClickListener() {
@@ -71,21 +68,7 @@ public class CartFragment extends DialogFragment {
         return root;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onItemEvent(Item item) {
-        cartAdapter.getBasket().add(item);
-        cartAdapter.notifyDataSetChanged();
-    };
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        bus.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        bus.unregister(this);
+    public void setBasket(Basket basket){
+        this.basket = basket;
     }
 }
