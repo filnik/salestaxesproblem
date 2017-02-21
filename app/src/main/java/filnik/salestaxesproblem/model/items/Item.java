@@ -23,18 +23,10 @@ public class Item {
         return 5;
     }
 
-    private double roundTo005(double x){
-        return Math.round(x * 20.0) / 20.0;
-    }
-
     public double getTotalTax(){
         double baseTaxCalculated = baseTax() * price / 100;
         double importedTaxCalculated = importedTax() * price / 100;
         return imported ? baseTaxCalculated + importedTaxCalculated : baseTaxCalculated;
-    }
-
-    public double roundedTotalTax(){
-        return roundTo005(getTotalTax());
     }
 
     public double getPrice(){
@@ -42,7 +34,11 @@ public class Item {
     }
 
     public Double getPriceWithTax(){
-        return price + roundedTotalTax();
+        return roundTo005(price + getTotalTax());
+    }
+
+    private double roundTo005(double x){
+        return Math.round(x * 20.0) / 20.0;
     }
 
     @Override

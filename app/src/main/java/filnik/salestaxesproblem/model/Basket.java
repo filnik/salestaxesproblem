@@ -22,23 +22,21 @@ public class Basket {
     }
 
     public void add(Item item){
-        totalPrice = totalPrice + item.getPrice();
+        totalPrice = totalPrice + item.getPriceWithTax();
         totalTaxes = totalTaxes + item.getTotalTax();
         items.add(item);
     }
 
-    public void remove(Item item){
-        items.remove(item);
-        totalPrice = totalPrice - item.getPrice();
-        totalTaxes = totalTaxes - item.getTotalTax();
-    }
-
     public double totalPrice(){
-        return totalPrice;
+        return roundTo005(totalPrice);
     }
 
     public double totalTaxes(){
-        return totalTaxes;
+        return roundTo005(totalTaxes);
+    }
+
+    private double roundTo005(double x){
+        return Math.round(x * 20.0) / 20.0;
     }
 
     public void clear() {

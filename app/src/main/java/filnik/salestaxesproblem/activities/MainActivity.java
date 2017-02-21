@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mikepenz.actionitembadge.library.ActionItemBadge;
@@ -17,6 +18,7 @@ import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +27,10 @@ import butterknife.OnClick;
 import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.fragments.CartFragment;
 import filnik.salestaxesproblem.model.Basket;
+import filnik.salestaxesproblem.model.items.BookItem;
+import filnik.salestaxesproblem.model.items.FoodItem;
 import filnik.salestaxesproblem.model.items.Item;
+import filnik.salestaxesproblem.model.items.MedicalItem;
 
 public class MainActivity extends Activity implements CartActivity {
 
@@ -99,8 +104,9 @@ Total: 74.68
     private CartFragment cartFragment;
     protected Validator validator = new Validator(this);
 
-    @BindView(R.id.name) EditText nameItem;
-    @BindView(R.id.price) EditText priceItem;
+    @BindView(R.id.name)     EditText nameItem;
+    @BindView(R.id.price)    EditText priceItem;
+    @BindView(R.id.type)     Spinner type;
     @BindView(R.id.imported) CheckBox imported;
     private MenuItem cartItem;
     private int itemsAdded = 0;
@@ -143,10 +149,33 @@ Total: 74.68
             public void onValidationSucceeded() {
                 itemsAdded++;
                 double price = Double.parseDouble(priceItem.getText().toString().replace("[^0-9\\.]", ""));
-                basket.add(new Item(nameItem.getText().toString(), imported.isChecked(), price));
+
+                Item item;
+                String[] options = getResources().getStringArray(R.array.item_types);
+                List<String> list = Arrays.asList(options);
+
+                switch (list.indexOf(type.getSelectedItem().toString())){
+                    case 0:
+                        item = new BookItem(nameItem.getText().toString(), imported.isChecked(), price);
+                        break;
+                    case 1:
+                        item = new FoodItem(nameItem.getText().toString(), imported.isChecked(), price);
+                        break;
+                    case 2:
+                        item = new MedicalItem(nameItem.getText().toString(), imported.isChecked(), price);
+                        break;
+                    default:
+                        item = new Item(nameItem.getText().toString(), imported.isChecked(), price);
+                        break;
+                }
+                basket.add(item);
                 ActionItemBadge.update(MainActivity.this, cartItem,
                         getResources().getDrawable(R.mipmap.ic_shopping_cart_white),
                         ActionItemBadge.BadgeStyles.RED, itemsAdded);
+                nameItem.setText("");
+                priceItem.setText("");
+                type.setSelection(0);
+                imported.setChecked(false);
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +40,8 @@ public class CartFragment extends DialogFragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cart, null, false);
         ButterKnife.bind(this, root);
+
+        Locale.setDefault(Locale.US);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +85,8 @@ public class CartFragment extends DialogFragment {
         cartView.setAdapter(cartAdapter);
         cartView.invalidate();
 
-        total.setText(getString(R.string.total, basket.totalTaxes(), basket.totalPrice()));
+        total.setText(String.format(getString(R.string.total), basket.totalTaxes(), basket.totalPrice()));
+        Log.d("TOTAL", String.format(getString(R.string.total), basket.totalTaxes(), basket.totalPrice()));
 
         getDialog().setTitle(getString(R.string.cart));
 

@@ -8,7 +8,7 @@
     <string name="price">Price:</string>
     <string name="price_hint">Price</string>
     <string name="imported">Imported</string>
-    <string name="cart">cart</string>
+    <string name="cart">Cart</string>
     <string name="close">Close</string>
     <string name="pay">Pay</string>
     <string name="paid">Cart paid</string>
@@ -16,10 +16,10 @@
     <string name="name_empty">Empty name</string>
     <string name="price_invalid">Price not valid</string>
     <string name="no_items">The cart is empty</string>
-    <string name="total">Sales Taxes: %1$,.2f\nTotal: %2$,.2f</string>
+    <string name="total">Sales Taxes: %1$.2f\nTotal: %2$.2f</string>
     <string name="clear">Clear</string>
     <string name="cart_cleared">Cart cleared</string>
-    <string name="line_text">%1$d %2$s at %3$,.2f</string>
+    <string name="line_text">%1$d %2$s at %3$.2f</string>
 
     <string-array name="item_types">
         <item>Book</item>
