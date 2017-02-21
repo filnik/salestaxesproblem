@@ -55,7 +55,7 @@ public class input2 extends ActivityInstrumentationTestCase2<MainActivity> {
         //Wait for dialog
 		solo.waitForDialogToOpen(5000);
         //Click on Pay
-		String totalFinalText = "Sales Taxes: 7.65\nTotal: 65.15";
+		String totalFinalText = String.format(solo.getString(R.string.total), 7.65F, 65.15F);
 
 		assertTrue(((TextView) solo.getView(filnik.salestaxesproblem.R.id.total)).getText().toString().equals(totalFinalText));
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.pay));

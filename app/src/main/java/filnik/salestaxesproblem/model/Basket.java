@@ -28,15 +28,11 @@ public class Basket {
     }
 
     public double totalPrice(){
-        return roundTo005(totalPrice);
+        return totalPrice;
     }
 
     public double totalTaxes(){
-        return roundTo005(totalTaxes);
-    }
-
-    private double roundTo005(double x){
-        return Math.round(x * 20.0) / 20.0;
+        return Util.roundTo005(totalTaxes);
     }
 
     public void clear() {

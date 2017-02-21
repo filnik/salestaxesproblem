@@ -1,5 +1,6 @@
 package filnik.salestaxesproblem.test;
 
+import filnik.salestaxesproblem.*;
 import filnik.salestaxesproblem.activities.MainActivity;
 import com.robotium.solo.*;
 import android.test.ActivityInstrumentationTestCase2;
@@ -53,7 +54,7 @@ public class input1 extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.waitForDialogToOpen(5000);
         //Click on Pay
 
-		String totalFinalText = "Sales Taxes: 1.50\nTotal: 29.83";
+		String totalFinalText = String.format(solo.getString(filnik.salestaxesproblem.R.string.total), 1.50F, 29.83F);
 
 		assertTrue(((TextView) solo.getView(filnik.salestaxesproblem.R.id.total)).getText().toString().equals(totalFinalText));
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.pay));

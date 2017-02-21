@@ -1,5 +1,9 @@
 package filnik.salestaxesproblem.model.items;
 
+import android.util.Log;
+
+import filnik.salestaxesproblem.model.Util;
+
 /**
  * Created by fil on 19/02/17.
  */
@@ -24,9 +28,9 @@ public class Item {
     }
 
     public double getTotalTax(){
-        double baseTaxCalculated = baseTax() * price / 100;
-        double importedTaxCalculated = importedTax() * price / 100;
-        return imported ? baseTaxCalculated + importedTaxCalculated : baseTaxCalculated;
+        double taxPercent = imported ? baseTax() + importedTax() : baseTax();
+        Log.d("BEFORE", "" + (taxPercent * price / 100));
+        return Util.roundTo005(taxPercent * price / 100);
     }
 
     public double getPrice(){
@@ -34,11 +38,7 @@ public class Item {
     }
 
     public Double getPriceWithTax(){
-        return roundTo005(price + getTotalTax());
-    }
-
-    private double roundTo005(double x){
-        return Math.round(x * 20.0) / 20.0;
+        return price + getTotalTax();
     }
 
     @Override
