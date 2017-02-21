@@ -76,22 +76,44 @@ public class CartFragment extends DialogFragment {
             }
         });
 
-        cartAdapter = new CartAdapter(basket);
-
-        cartView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cartView.setAdapter(cartAdapter);
-        cartView.invalidate();
-
-        total.setText(String.format(getString(R.string.total), basket.totalTaxes(), basket.totalPrice()));
-        Log.d("TOTAL", String.format(getString(R.string.total), basket.totalTaxes(), basket.totalPrice()));
+        bindView();
 
         getDialog().setTitle(getString(R.string.cart));
 
         return root;
     }
 
+    private void bindView(){
+        if (basket != null) {
+
+            cartAdapter = new CartAdapter(basket);
+
+            cartView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+            cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            cartView.setAdapter(cartAdapter);
+            cartView.invalidate();
+
+            total.setText(String.format(getString(R.string.total), basket.totalTaxes(), basket.totalPrice()));
+            Log.d("TOTAL", String.format(getString(R.string.total), basket.totalTaxes(), basket.totalPrice()));
+        }
+    }
+
     public void setBasket(Basket basket){
         this.basket = basket;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putSerializable("basket", basket);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            basket = (Basket) savedInstanceState.getSerializable("basket");
+            bindView();
+        }
     }
 }

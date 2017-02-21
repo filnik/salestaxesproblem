@@ -45,8 +45,8 @@ public class CartAdapter extends RecyclerView.Adapter {
         CartHolder myHolder = (CartHolder) holder;
         Item item = basket.getItem(position);
         Context context = holder.itemView.getContext();
-        String imported = item.isImported() ? " " + context.getString(R.string.imported).toLowerCase() + " " : " ";
-        String name = imported + " " + item.getName();
+        String imported = item.isImported() ? context.getString(R.string.imported).toLowerCase() + " " : "";
+        String name = imported + item.getName();
         String finalText = String.format(context.getString(R.string.line_text), 1, name, item.getPriceWithTax());
         Log.d("ITEM", finalText);
         myHolder.text.setText(finalText);

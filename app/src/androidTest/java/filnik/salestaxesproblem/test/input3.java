@@ -8,7 +8,6 @@ import com.robotium.solo.Solo;
 import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.activities.MainActivity;
 
-
 public class input3 extends ActivityInstrumentationTestCase2<MainActivity> {
   	private Solo solo;
 

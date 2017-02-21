@@ -1,13 +1,9 @@
 package filnik.salestaxesproblem.test;
 
-import filnik.salestaxesproblem.*;
 import filnik.salestaxesproblem.activities.MainActivity;
 import com.robotium.solo.*;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 
 public class input1 extends ActivityInstrumentationTestCase2<MainActivity> {
   	private Solo solo;

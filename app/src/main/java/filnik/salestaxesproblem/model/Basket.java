@@ -1,5 +1,6 @@
 package filnik.salestaxesproblem.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import filnik.salestaxesproblem.model.items.Item;
@@ -8,7 +9,7 @@ import filnik.salestaxesproblem.model.items.Item;
  * Created by fil on 19/02/17.
  */
 
-public class Basket {
+public class Basket implements Serializable{
     private ArrayList<Item> items;
     private double totalPrice = 0;
     private double totalTaxes = 0;

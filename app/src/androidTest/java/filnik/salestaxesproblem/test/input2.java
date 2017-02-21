@@ -5,10 +5,8 @@ import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
-import filnik.salestaxesproblem.*;
 import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.activities.MainActivity;
-
 
 public class input2 extends ActivityInstrumentationTestCase2<MainActivity> {
   	private Solo solo;
