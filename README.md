@@ -2,6 +2,14 @@
 
 This is an Android Application who aims to solve the Sales Taxes Problem. It's released under the MIT License.
 
+To build, just install Android Studio and open the main build.gradle file.
+
+After that, in the folder tree, just open app > filnik.salestaxesproblem > filnik.salestaxesproblem.test,
+right click on the folder and "run Tests in filnik..." to run each test and see the application
+autocompleting the task.
+
+I've added a sleep at the end of each test to let the user read the final result before exiting.
+
 ----
 
 Basic sales tax is applicable at a rate of 10% on all goods, except books, food, and medical

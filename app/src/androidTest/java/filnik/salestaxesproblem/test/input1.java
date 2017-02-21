@@ -50,13 +50,10 @@ public class input1 extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.enterText((android.widget.EditText) solo.getView(filnik.salestaxesproblem.R.id.price), "0.85");
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.add_button));
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.cart));
-        //Wait for dialog
 		solo.waitForDialogToOpen(5000);
-        //Click on Pay
-
 		String totalFinalText = String.format(solo.getString(filnik.salestaxesproblem.R.string.total), 1.50F, 29.83F);
-
 		assertTrue(((TextView) solo.getView(filnik.salestaxesproblem.R.id.total)).getText().toString().equals(totalFinalText));
+		solo.sleep(8000); // remove in production
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.pay));
 	}
 }

@@ -29,7 +29,6 @@ public class Item {
 
     public double getTotalTax(){
         double taxPercent = imported ? baseTax() + importedTax() : baseTax();
-        Log.d("BEFORE", "" + (taxPercent * price / 100));
         return Util.roundTo005(taxPercent * price / 100);
     }
 

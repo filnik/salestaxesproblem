@@ -1,7 +1,6 @@
 package filnik.salestaxesproblem.fragments;
 
 import android.app.DialogFragment;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;

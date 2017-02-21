@@ -17,10 +17,6 @@ public class Basket {
         items = new ArrayList<>();
     }
 
-    public Basket(ArrayList<Item> items) {
-        this.items = items;
-    }
-
     public void add(Item item){
         totalPrice = totalPrice + item.getPriceWithTax();
         totalTaxes = totalTaxes + item.getTotalTax();

@@ -52,12 +52,10 @@ public class input2 extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.clickOnView(solo.getView(R.id.imported));
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.add_button));
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.cart));
-        //Wait for dialog
 		solo.waitForDialogToOpen(5000);
-        //Click on Pay
 		String totalFinalText = String.format(solo.getString(R.string.total), 7.65F, 65.15F);
-
 		assertTrue(((TextView) solo.getView(filnik.salestaxesproblem.R.id.total)).getText().toString().equals(totalFinalText));
+		solo.sleep(8000); // remove in production
 		solo.clickOnView(solo.getView(filnik.salestaxesproblem.R.id.pay));
 	}
 }

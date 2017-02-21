@@ -67,13 +67,10 @@ public class input3 extends ActivityInstrumentationTestCase2<MainActivity> {
 		solo.clickOnView(solo.getView(R.id.imported));
 		solo.clickOnView(solo.getView(R.id.add_button));
 		solo.clickOnView(solo.getView(R.id.cart));
-        //Wait for dialog
 		solo.waitForDialogToOpen(5000);
-        //Click on Pay
 		String totalFinalText = String.format(solo.getString(R.string.total), 6.70F, 74.68F);
 		assertTrue(((TextView) solo.getView(R.id.total)).getText().toString().equals(totalFinalText));
-
-		//solo.sleep(3000);
+		solo.sleep(8000);
 		solo.clickOnView(solo.getView(R.id.pay));
 	}
 }
