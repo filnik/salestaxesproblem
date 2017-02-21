@@ -5,6 +5,7 @@ package filnik.salestaxesproblem.activities;
  */
 
 public interface CartActivity {
-    public void onCartClose();
-    public void onPaid();
+    void onCartClose();
+    void onPaid();
+    void onClearCart();
 }

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -212,7 +211,13 @@ Total: 74.68
 
     @Override
     public void onPaid() {
+        cartFragment = null;
         cartItem.getActionView().findViewById(R.id.menu_badge).setVisibility(View.GONE);
         itemsAdded = 0;
+    }
+
+    @Override
+    public void onClearCart() {
+        onPaid();
     }
 }

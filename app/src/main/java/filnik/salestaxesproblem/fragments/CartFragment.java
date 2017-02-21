@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -18,7 +19,6 @@ import filnik.salestaxesproblem.R;
 import filnik.salestaxesproblem.activities.CartActivity;
 import filnik.salestaxesproblem.model.Basket;
 import filnik.salestaxesproblem.model.CartAdapter;
-import filnik.salestaxesproblem.model.items.Item;
 import filnik.salestaxesproblem.view.DividerItemDecoration;
 
 /**
@@ -26,7 +26,9 @@ import filnik.salestaxesproblem.view.DividerItemDecoration;
  */
 public class CartFragment extends DialogFragment {
     @BindView(R.id.close)       Button closeButton;
+    @BindView(R.id.clear)       Button clearButton;
     @BindView(R.id.pay)         Button payButton;
+    @BindView(R.id.total)       TextView total;
     @BindView(R.id.cart_list)   RecyclerView cartView;
     private CartAdapter cartAdapter;
     private Basket basket;
@@ -46,12 +48,17 @@ public class CartFragment extends DialogFragment {
             }
         });
 
-        cartAdapter = new CartAdapter(basket);
-
-        cartView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cartView.setAdapter(cartAdapter);
-        cartView.invalidate();
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), R.string.cart_cleared, Toast.LENGTH_SHORT).show();
+                cartAdapter.clear();
+                if (getActivity() instanceof CartActivity){
+                    ((CartActivity) getActivity()).onClearCart();
+                }
+                dismiss();
+            }
+        });
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +72,15 @@ public class CartFragment extends DialogFragment {
                 dismiss();
             }
         });
+
+        cartAdapter = new CartAdapter(basket);
+
+        cartView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        cartView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        cartView.setAdapter(cartAdapter);
+        cartView.invalidate();
+
+        total.setText(getString(R.string.total, basket.totalTaxes(), basket.totalPrice()));
 
         getDialog().setTitle(getString(R.string.cart));
 
